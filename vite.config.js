@@ -19,7 +19,8 @@ const shareServer = () => {
 
 export default defineConfig({
   plugins: [shareServer()],
-  base: './', // relative paths: the built folder works from any sub-path or static host
+  base: '/ceramic-vibe/',
+ // relative paths: the built folder works from any sub-path or static host
   server: { host: true },
   optimizeDeps: { esbuildOptions: { target: 'esnext' } },
   build: {

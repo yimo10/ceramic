@@ -1309,8 +1309,7 @@ async function main() {
       const potUrl = potImage(clay, 1024);
       const cap = { name, brand: t('kiln.brand'), scan: t('kiln.scan') };
       const sprite = await loadImage(potUrl);
-      // the photo that a phone will receive (no QR on it) is uploaded while the kiln animation plays
-      const upload = composeCard({ potUrl, qr: null, cap }).then((c) => uploadPhoto(c, new URL(SHARE_ENDPOINT, location.href).href));
+      
       if (!noFire) {
       const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
       $('#kilnSkip').hidden = false;
@@ -1324,14 +1323,14 @@ async function main() {
       });
       if ((await anim.done) === 'stopped') return; // the dialog was closed while firing
       } else $('#kilnSkip').hidden = true;
-      kilnText.textContent = t('kiln.wait');
-      const share = await upload;
-      const card = await composeCard({ potUrl, qr: share ? qrMatrix(share.url) : null, drawQR, cap });
+           kilnText.textContent = t('kiln.wait');
+      const SITE_URL = "https://yimo10.github.io/ceramic-vibe/";
+      const card = await composeCard({ potUrl, qr: qrMatrix(SITE_URL), drawQR, cap });
       const url = card.toDataURL('image/png');
       $('#kilnImg').src = url;
       const dl = $('#kilnDownload');
       dl.href = url; dl.download = (name || 'pottery') + '.png';
-      $('#kilnNote').textContent = t(share ? 'kiln.scanNote' : 'kiln.noQr');
+      $('#kilnNote').textContent = t('kiln.scanNote');
       kilnStage.hidden = true; kilnRes.hidden = false;
     } catch (e) {
       console.warn('[kiln]', e);
